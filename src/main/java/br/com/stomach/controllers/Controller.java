@@ -72,6 +72,13 @@ public class Controller {
 		return _valence.findByInitial(initial);
 	}
 	
+	@GetMapping("/element/{initial}")
+	public List<Equation> getElement(@PathVariable String initial) {
+		Calc calc = new Calc();
+		List<Equation> equation = calc.getElement(_factor, _valence, initial);
+		return equation;
+	}
+	
 	@GetMapping("/equation/{initial}")
 	public List<Equation> getEquation(@PathVariable String initial) {
 		Calc calc = new Calc();

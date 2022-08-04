@@ -33,7 +33,7 @@ public class Calc {
 		return electron;
 	}
 
-	public List<Equation> getEquation(FactorService _factor, ValenceService _valence, String initial) {
+	public List<Equation> getElement(FactorService _factor, ValenceService _valence, String initial) {
 		Periodic periodic = _factor.findByInitial(initial).getPeriodic();
 		Electron electron = _valence.findAll().stream().map(index -> index.getElectron()).filter(index -> periodic.number <= index.sum && periodic.number > index.sum - index.maximun).findFirst().get();
 		Element element = new Element();
@@ -46,7 +46,7 @@ public class Calc {
 		element.amount = 1;
 		element.fullName = periodic.name;
 		List<Element> listElement = new ArrayList<Element>();
-		listElement.add(0, element);
+		listElement.add(element);
 		Equation equation = new Equation();
 		equation.name = "equation";
 		equation.type = "element";
@@ -55,8 +55,15 @@ public class Calc {
 		equation.amount = 1;
 		equation.element = listElement;
 		List<Equation> listEquantion = new ArrayList<Equation>();
-		listEquantion.add(0, equation);
+		listEquantion.add(equation);
 		return listEquantion;
+	}
+	
+	public List<Equation> getEquation(FactorService _factor, ValenceService _valence, String initial) {
+		List<Equation> equation = getElement(_factor, _valence, initial);
+		int need = equation.get(0).element.get(0).level.sum - equation.get(0).element.get(0).valence;
+		
+		return equation;
 	}
 	
 }
