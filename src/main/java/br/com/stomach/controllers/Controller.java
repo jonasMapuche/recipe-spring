@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.stomach.entities.Electron;
 import br.com.stomach.entities.Factor;
@@ -16,6 +18,8 @@ import br.com.stomach.entities.Valence;
 import br.com.stomach.services.FactorService;
 import br.com.stomach.services.ValenceService;
 
+@RestController
+@RequestMapping("/recipe")
 public class Controller {
 
 	@Autowired
