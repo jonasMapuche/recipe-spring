@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.stomach.entities.Electron;
+import br.com.stomach.entities.Equation;
 import br.com.stomach.entities.Factor;
 import br.com.stomach.entities.Periodic;
 import br.com.stomach.entities.Valence;
@@ -70,5 +71,14 @@ public class Controller {
 	public Valence getValence(@PathVariable String initial) {
 		return _valence.findByInitial(initial);
 	}
+	
+	@GetMapping("/equation/{initial}")
+	public List<Equation> getEquation(@PathVariable String initial) {
+		Calc calc = new Calc();
+		List<Equation> equation = calc.getEquation(_factor, _valence, initial);
+		return equation;
+	}
+	
+	
 	
 }

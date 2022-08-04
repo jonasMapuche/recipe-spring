@@ -12,6 +12,8 @@ public class Element {
 	public String type;
 	@Field("multiplier")
 	public int multiplier;
+	@Field("valence")
+	public int valence;
 	@Field("charge")
 	public int charge;
 	@Field("amount")
@@ -36,6 +38,12 @@ public class Element {
 	}
 	public int getMultiplier() {
 		return this.multiplier;
+	}
+	public void setValece(int valence) {
+		this.valence = valence;
+	}
+	public int getValence() {
+		return this.valence;
 	}
 	public void setCharge(int charge) {
 		this.charge = charge;
