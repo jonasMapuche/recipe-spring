@@ -35,12 +35,13 @@ public class Calc {
 
 	public List<Equation> getEquation(FactorService _factor, ValenceService _valence, String initial) {
 		Periodic periodic = _factor.findByInitial(initial).getPeriodic();
-		//Electron electron = _valence.findAll().stream().map(index -> index.getElectron()).filter(index -> periodic.number <= index.sum && periodic.number > index.sum - index.maximun).findFirst().get();
+		Electron electron = _valence.findAll().stream().map(index -> index.getElectron()).filter(index -> periodic.number <= index.sum && periodic.number > index.sum - index.maximun).findFirst().get();
 		Element element = new Element();
 		element.name = periodic.name;
 		element.type = "default";
 		element.multiplier = 1;
 		element.valence = periodic.number;
+		element.level = electron;
 		element.charge = 0;
 		element.amount = 1;
 		element.fullName = periodic.name;

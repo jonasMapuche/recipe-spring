@@ -79,6 +79,4 @@ public class Controller {
 		return equation;
 	}
 	
-	
-	
 }
