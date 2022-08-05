@@ -1,12 +1,19 @@
 package br.com.stomach.entities;
 
+import java.math.BigInteger;
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
+@Document(collection = "equation")
 public class Equation {
 
+	@Id
+	private BigInteger _id;
+	
 	@Indexed
 	@Field("name")
 	public String name;
@@ -20,6 +27,17 @@ public class Equation {
 	public int amount;
 	@Field("role")
 	public List<Element> element;
+	
+	public Equation() {}
+	
+	public Equation(List<Element> element) {
+		this.name = "equation";
+		this.type = "element";
+		this.multiplier = 1;
+		this.charge = 0;
+		this.amount = 1;
+		this.element = element;
+	}
 		
 	public void setName(String name) {
 		this.name = name;
