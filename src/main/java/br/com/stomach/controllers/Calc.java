@@ -2,6 +2,8 @@ package br.com.stomach.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import br.com.stomach.entities.Electron;
 import br.com.stomach.entities.Element;
@@ -60,11 +62,16 @@ public class Calc {
 	}
 	
 	public List<Equation> loadEquation(FactorService _factor, ValenceService _valence, String initial) {
+		Periodic periodic1 = _factor.findByInitial(initial).getPeriodic();
+		Electron electron1 = _valence.findAll().stream().map(index -> index.getElectron()).filter(index -> periodic1.number <= index.sum && periodic1.number > index.sum - index.maximun).findFirst().get();
 		List<Equation> listEquantion = new ArrayList<Equation>();
 		_factor.findAll().forEach(lista -> {
-			Electron electron = _valence.findAll().stream().map(index -> index.getElectron()).filter(index -> lista.periodic.getNumber() <= index.sum && lista.periodic.getNumber() > index.sum - index.maximun).findFirst().get();
-			Element element = new Element(lista.periodic.getInitial(), lista.periodic.getNumber(), lista.periodic.getName(), electron);
+			Electron electron2 = _valence.findAll().stream().map(index -> index.getElectron()).filter(index -> lista.periodic.getNumber() <= index.sum && lista.periodic.getNumber() > index.sum - index.maximun).findFirst().get();
 			List<Element> listElement = new ArrayList<Element>();
+			Element element = new Element();
+			element.saveDefault(periodic1.getInitial(), periodic1.getNumber(), periodic1.getName(), electron1);
+			listElement.add(element);
+			element.saveDefault(lista.periodic.getInitial(), lista.periodic.getNumber(), lista.periodic.getName(), electron2);
 			listElement.add(element);
 			Equation equation = new Equation(listElement);
 			listEquantion.add(equation);
@@ -76,10 +83,30 @@ public class Calc {
 	public List<Equation> getEquation(FactorService _factor, ValenceService _valence, String initial) {
 		List<Equation> equation = getElement(_factor, _valence, initial);
 		int need = equation.get(0).element.get(0).level.sum - equation.get(0).element.get(0).valence;
-		List<Equation> listEquantion = loadEquation(_factor, _valence, initial);
+		List<Equation> listEquantion, listFilter = new ArrayList<Equation>();
+		listEquantion = loadEquation(_factor, _valence, initial);
+		
+		/*
+		//complete = listEquantion.st stream().filter(index -> index.element.stream().filter(index -> index.valence <= nee
+		//List<Element> complete1 = listEquantion.stream().map(index -> index.element).findFirst().get();
+		
+		List<Element> element = listEquantion.stream().map(index -> index.element).findFirst().get();
+		Equation equacao = listEquantion.stream().filter(index -> index.amount == 1).findFirst().get();
+		
 		List<Equation> complete = new ArrayList<Equation>();
-		//complete = listEquantion.st stream().filter(index -> index.element.stream().filter(index -> index.valence <= need));
-		return listEquantion;
+		Predicate<Equation> myAmount = index -> index.amount < 0;
+		complete = listEquantion.stream().filter(myAmount).collect(Collectors.toList());		
+		listFilter = listEquantion.stream().filter(index -> {
+				boolean novo = index.element.stream().filter(myValence).count() > 0;
+				return novo;
+		}).collect(Collectors.toList());
+		//listFilter = listEquantion.stream().filter(index -> index.element.stream().filter(i -> i.valence < 2).count() > 0).collect(Collectors.toList()); 
+		*/
+		
+		Predicate<Element> myValence = index -> index.level.sum - index.valence < need && index.level.sum - index.valence > 0;
+		listFilter = listEquantion.stream().filter(index -> index.element.stream().filter(myValence).count() > 0).collect(Collectors.toList()); 
+		
+		return listFilter;
 	}
 	
 }

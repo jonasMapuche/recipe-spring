@@ -35,6 +35,17 @@ public class Element {
 		this.amount = 1;
 		this.fullName = fullName;
 	}
+	
+	public void saveDefault (String initial, int number, String fullName, Electron electron) {
+		this.name = initial;
+		this.type = "default";
+		this.multiplier = 1;
+		this.valence = number;
+		this.level = electron;
+		this.charge = 0;
+		this.amount = 1;
+		this.fullName = fullName;
+	}
 
 	public void setName(String name) {
 		this.name = name;
