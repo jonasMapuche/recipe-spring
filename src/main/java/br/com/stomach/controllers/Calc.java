@@ -106,6 +106,7 @@ public class Calc {
 		equation.forEach(lista -> {
 			lista.element.get(0).charge = lista.element.get(1).level.sum - lista.element.get(1).valence;
 			lista.element.get(1).charge = (lista.element.get(1).level.sum - lista.element.get(1).valence) * -1;
+			lista.element.get(1).amount = (lista.element.get(0).level.sum - lista.element.get(0).valence) / (lista.element.get(1).level.sum - lista.element.get(1).valence);
 			});
 		return equation;
 	}
@@ -115,8 +116,15 @@ public class Calc {
 		int need = equation.get(0).element.get(0).level.sum - equation.get(0).element.get(0).valence;
 		List<Equation> listEquantion, listFilter = new ArrayList<Equation>();
 		listEquantion = loadEquation(_factor, _valence, initial);
-		
-		Predicate<Element> myValence = index -> ((index.level.sum - index.valence) / need) == 0 && index.level.sum - index.valence > 0;
+		Predicate<Element> myValence = index -> {
+			if ((index.level.sum - index.valence > 0) && (index.level.sum - index.valence < need)) {
+				if (need % (index.level.sum - index.valence) == 0) 
+					return true;
+				else 
+					return false;
+			} else 
+				return false;
+		};
 		listFilter = listEquantion.stream().filter(index -> index.element.stream().filter(myValence).count() > 0).collect(Collectors.toList()); 
 		
 		return chargeMultiplier(listFilter);
