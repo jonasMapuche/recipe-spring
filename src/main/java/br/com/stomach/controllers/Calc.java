@@ -38,24 +38,10 @@ public class Calc {
 	public List<Equation> getElement(FactorService _factor, ValenceService _valence, String initial) {
 		Periodic periodic = _factor.findByInitial(initial).getPeriodic();
 		Electron electron = _valence.findAll().stream().map(index -> index.getElectron()).filter(index -> periodic.number <= index.sum && periodic.number > index.sum - index.maximun).findFirst().get();
-		Element element = new Element();
-		element.name = periodic.name;
-		element.type = "default";
-		element.multiplier = 1;
-		element.valence = periodic.number;
-		element.level = electron;
-		element.charge = 0;
-		element.amount = 1;
-		element.fullName = periodic.name;
+		Element element = new Element(periodic.getInitial(), periodic.getNumber(), periodic.getName(), electron);
 		List<Element> listElement = new ArrayList<Element>();
 		listElement.add(element);
-		Equation equation = new Equation();
-		equation.name = "equation";
-		equation.type = "element";
-		equation.multiplier = 1;
-		equation.charge = 0;
-		equation.amount = 1;
-		equation.element = listElement;
+		Equation equation = new Equation(listElement);
 		List<Equation> listEquantion = new ArrayList<Equation>();
 		listEquantion.add(equation);
 		return listEquantion;
@@ -68,18 +54,25 @@ public class Calc {
 		_factor.findAll().forEach(lista -> {
 			Electron electron2 = _valence.findAll().stream().map(index -> index.getElectron()).filter(index -> lista.periodic.getNumber() <= index.sum && lista.periodic.getNumber() > index.sum - index.maximun).findFirst().get();
 			List<Element> listElement = new ArrayList<Element>();
-			Element element = new Element();
-			element.saveDefault(periodic1.getInitial(), periodic1.getNumber(), periodic1.getName(), electron1);
+			Element element = new Element(periodic1.getInitial(), periodic1.getNumber(), periodic1.getName(), electron1);
+			Element element2 = new Element(lista.periodic.getInitial(), lista.periodic.getNumber(), lista.periodic.getName(), electron2);
 			listElement.add(element);
-			element.saveDefault(lista.periodic.getInitial(), lista.periodic.getNumber(), lista.periodic.getName(), electron2);
-			listElement.add(element);
+			listElement.add(element2);
 			Equation equation = new Equation(listElement);
+			equation.setName(periodic1.initial + lista.initial);
 			listEquantion.add(equation);
 		} );
 		return listEquantion;
 	}
 	
-	
+	public List<Equation> chargeEquation(List<Equation> equation) {
+		equation.forEach(lista -> {
+			lista.element.get(0).charge = lista.element.get(1).level.sum - lista.element.get(1).valence;
+			lista.element.get(1).charge = (lista.element.get(1).level.sum - lista.element.get(1).valence) * -1;
+			});
+		return equation;
+	}
+		
 	public List<Equation> getEquation(FactorService _factor, ValenceService _valence, String initial) {
 		List<Equation> equation = getElement(_factor, _valence, initial);
 		int need = equation.get(0).element.get(0).level.sum - equation.get(0).element.get(0).valence;
@@ -106,7 +99,27 @@ public class Calc {
 		Predicate<Element> myValence = index -> index.level.sum - index.valence < need && index.level.sum - index.valence > 0;
 		listFilter = listEquantion.stream().filter(index -> index.element.stream().filter(myValence).count() > 0).collect(Collectors.toList()); 
 		
-		return listFilter;
+		return chargeEquation(listFilter);
+	}
+	
+	public List<Equation> chargeMultiplier(List<Equation> equation) {
+		equation.forEach(lista -> {
+			lista.element.get(0).charge = lista.element.get(1).level.sum - lista.element.get(1).valence;
+			lista.element.get(1).charge = (lista.element.get(1).level.sum - lista.element.get(1).valence) * -1;
+			});
+		return equation;
+	}
+	
+	public List<Equation> getMultiplier(FactorService _factor, ValenceService _valence, String initial) {
+		List<Equation> equation = getElement(_factor, _valence, initial);
+		int need = equation.get(0).element.get(0).level.sum - equation.get(0).element.get(0).valence;
+		List<Equation> listEquantion, listFilter = new ArrayList<Equation>();
+		listEquantion = loadEquation(_factor, _valence, initial);
+		
+		Predicate<Element> myValence = index -> ((index.level.sum - index.valence) / need) == 0 && index.level.sum - index.valence > 0;
+		listFilter = listEquantion.stream().filter(index -> index.element.stream().filter(myValence).count() > 0).collect(Collectors.toList()); 
+		
+		return chargeMultiplier(listFilter);
 	}
 	
 }

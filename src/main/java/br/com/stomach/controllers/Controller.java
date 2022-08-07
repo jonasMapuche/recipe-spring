@@ -86,4 +86,11 @@ public class Controller {
 		return equation;
 	}
 	
+	@GetMapping("/multiplier/{initial}")
+	public List<Equation> getMultiplier(@PathVariable String initial) {
+		Calc calc = new Calc();
+		List<Equation> equation = calc.getMultiplier(_factor, _valence, initial);
+		return equation;
+	}
+	
 }
