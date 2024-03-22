@@ -26,8 +26,8 @@ public class EquationService {
 		return repository.findAll();
 	}
 	
-	public Equation findByName(String name) {
-		return repository.findByName(name).stream().findFirst().get();
+	public Equation findByInitial(String initial) {
+		return repository.findByInitial(initial).stream().findFirst().get();
 	}
 	
 }

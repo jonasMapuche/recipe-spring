@@ -16,58 +16,31 @@ public class Equation {
 	
 	@Indexed
 	@Field("name")
-	public String name;
+	public List<String> name;
 	@Field("type")
 	public String type;
-	@Field("multiplier")
-	public int multiplier;
-	@Field("charge")
-	public int charge;
-	@Field("amount")
-	public int amount;
-	@Field("role")
+	@Field("initial")
+	public String initial;
+	@Field("element")
 	public List<Element> element;
-	
-	public Equation() {}
-	
-	public Equation(List<Element> element) {
-		this.name = "equation";
-		this.type = "element";
-		this.multiplier = 1;
-		this.charge = 0;
-		this.amount = 1;
-		this.element = element;
-	}
-		
-	public void setName(String name) {
+
+	public void setName(List<String> name) {
 		this.name = name;
 	}
-	public String getName() {
+	public List<String> getName() {
 		return this.name;
+	}
+	public void setInitial(String initial) {
+		this.initial = initial;
+	}
+	public String getInitial() {
+		return this.initial;
 	}
 	public void setType(String type) {
 		this.type = type;
 	}
 	public String getType() {
 		return this.type;
-	}
-	public void setMultiplier(int multiplier) {
-		this.multiplier = multiplier;
-	}
-	public int getMultiplier() {
-		return this.multiplier;
-	}
-	public void setCharge(int charge) {
-		this.charge = charge;
-	}
-	public int getCharge() {
-		return this.charge;
-	}
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-	public int getAmount() {
-		return this.amount;
 	}
 	public void setElement(List<Element> element) {
 		this.element = element;

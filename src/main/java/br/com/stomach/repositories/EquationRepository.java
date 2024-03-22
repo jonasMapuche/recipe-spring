@@ -8,5 +8,5 @@ import br.com.stomach.entities.Equation;
 
 public interface EquationRepository extends MongoRepository<Equation, Long> {
 
-	List<Equation> findByName(String name);
+	List<Equation> findByInitial(String initial);
 }

@@ -1,0 +1,16 @@
+br\com\stomach\controllers\Calc.class
+br\com\stomach\repositories\FactorRepository.class
+br\com\stomach\controllers\Controller.class
+br\com\stomach\services\EquationService.class
+br\com\stomach\controllers\Chemical.class
+br\com\stomach\RecipeSpringApplication.class
+br\com\stomach\services\FactorService.class
+br\com\stomach\repositories\ValenceRepository.class
+br\com\stomach\repositories\EquationRepository.class
+br\com\stomach\entities\Periodic.class
+br\com\stomach\entities\Valence.class
+br\com\stomach\entities\Equation.class
+br\com\stomach\entities\Element.class
+br\com\stomach\entities\Factor.class
+br\com\stomach\services\ValenceService.class
+br\com\stomach\entities\Electron.class
