@@ -22,7 +22,7 @@ import br.com.stomach.services.FactorService;
 import br.com.stomach.services.ValenceService;
 
 @RestController
-@RequestMapping("/recipe")
+@RequestMapping("")
 public class Controller {
 
 	@Autowired

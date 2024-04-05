@@ -11,8 +11,8 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>br.com.stomach</groupId>
-	<artifactId>recipe-spring</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<artifactId>recipe</artifactId>
+	<version>0.1.0-SNAPSHOT</version>
 	<name>recipe-spring</name>
 	<description>Extrapolate Chemical Recipes with Spring JPA, Spring Boot e Spring BD Mongo</description>
 	<properties>
